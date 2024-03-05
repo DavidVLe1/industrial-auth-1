@@ -78,4 +78,7 @@ class PhotosController < ApplicationController
       redirect_back fallback_location: root_url, alert: "You're not authorized for that."
     end
   end
+  def show
+    authorize @photo
+  end
 end
