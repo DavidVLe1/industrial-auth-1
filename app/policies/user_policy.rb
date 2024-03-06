@@ -1,4 +1,4 @@
-class UserPolicy
+class UserPolicy < ApplicationPolicy
   attr_reader :current_user, :user
 
   def initialize(current_user, user)
@@ -7,8 +7,33 @@ class UserPolicy
   end
 
   def show?
-    user == current_user ||
-     !user.private? || 
-     user.followers.include?(current_user)
+    true
   end
+
+  def tab?
+    user == current_user ||
+    !user.private? || 
+    user.followers.include?(current_user)
+  end
+
+  def feed?
+    true
+  end
+
+  def discover?
+    true
+  end
+
+  def liked?
+  true
+  end
+
+  def new?
+    create?
+  end
+
+  def edit?
+    update?
+  end
+
 end
