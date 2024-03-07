@@ -2,17 +2,17 @@ class UserPolicy < ApplicationPolicy
   attr_reader :current_user, :user
 
   def initialize(current_user, user)
-    @current_user=current_user
-    @user=user
+    @current_user = current_user
+    @user = user
   end
 
   def show?
     true
   end
 
-  def tab?
+  def show_tab?
     user == current_user ||
-    !user.private? || 
+    !user.private? ||
     user.followers.include?(current_user)
   end
 
@@ -25,7 +25,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def liked?
-  true
+    true
   end
 
   def new?
@@ -35,5 +35,4 @@ class UserPolicy < ApplicationPolicy
   def edit?
     update?
   end
-
 end
