@@ -25,7 +25,7 @@ class PhotoPolicy < ApplicationPolicy
 
 
   def update?
-    true
+    owner?
   end
 
   def edit?
@@ -33,6 +33,10 @@ class PhotoPolicy < ApplicationPolicy
   end
 
   def destroy?
-    true
+    owner?
+  end
+
+  def owner?
+    @photo.owner == user
   end
 end
