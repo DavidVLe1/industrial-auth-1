@@ -21,11 +21,14 @@ class CommentPolicy < ApplicationPolicy
     author?
   end
 
-  def author?
-    user.id == @comment.author_id
-  end
+
 
   def destroy?
     author?
+  end
+
+  private
+  def author?
+    user == comment.author
   end
 end

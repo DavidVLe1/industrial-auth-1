@@ -1,6 +1,5 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: %i[ show edit update destroy ]
-  before_action :is_an_authorized_user, only: [:destroy, :create]
   before_action { authorize @comment || Comment }
   # GET /comments or /comments.json
   def index
@@ -70,20 +69,5 @@ class CommentsController < ApplicationController
     params.require(:comment).permit(:author_id, :photo_id, :body)
   end
 
-  def is_an_authorized_user
-    # if nil, try finding associated photo instead else if comment is not nil,
-    # find comment and sets it to then be used in retrieving the photo instance.
-    # Aftewards, check if current user is authorized.
-    # notice: params[:comment] makes it so the Comment instance is easily accesible throughout the rest of the method.
-    if @comment == nil
-      @photo = Photo.find(params.fetch(:comment).fetch(:photo_id))
-    else
-      params[:comment] = Comment.find(params[:id])
-      @photo= params[:comment].photo
-    end
-      if current_user != @photo.owner && @photo.owner.private? && !current_user.leaders.include?(@photo.owner)
-        redirect_back fallback_location: root_url, alert: "Not authorized"
-      end
 
-  end
 end
